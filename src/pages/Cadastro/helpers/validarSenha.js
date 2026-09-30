@@ -1,7 +1,4 @@
-function validarSenha(usuario, senha, csenha) {
-  if (usuario === '') {
-    return 'Nome vazio!';
-  }
+export default function validarSenha(senha, csenha) {
   if (senha === '' || csenha === '') {
     return 'Campos vazios!';
   }

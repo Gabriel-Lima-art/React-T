@@ -1,6 +1,6 @@
 import styles from './Styles.module.css';
 
-export default function Input({ typeInput, placeholder, required }) {
+export default function Input({ typeInput, placeholder, required, onChange, value }) {
   return (
     <input
       class={styles.input}
@@ -8,6 +8,8 @@ export default function Input({ typeInput, placeholder, required }) {
       type={typeInput}
       id="senha"
       required={required}
+      onChange={onChange}
+      value={value}
     />
   );
 }

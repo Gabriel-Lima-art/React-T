@@ -1,69 +1,120 @@
 import Input from '../../components/ui/Input/Index';
-import Botao from '../../components/ui/Button/';
+import Botao from '../../components/ui/Botao/Index';
 import styles from './Styles.module.css';
 import { useNavigate } from 'react-router';
 import Checkbox from '../../components/ui/Checkbox';
 import imgLogoBat from '../../assets/imgs/WhatsApp_Image_2026-09-04_at_09.51.37-removebg-preview (1).png';
 import { Link } from 'react-router';
+import validarSenha from './helpers/validarSenha';
+import { useState } from 'react';
 
 export default function Cadastro() {
 
     const navigate = useNavigate();
+    const [senha, setSenha] = useState('')
+    const [confirmarSenha, setConfirmarSenha] = useState('')
+    const [email, setEmail] = useState('')
+    const [nome, setNome] = useState('')
+    const [jaEnviou, setJaEnviou] = useState(false)
+    const senhasIguais = validarSenha(senha, confirmarSenha);
+    const [mostrarSenha, setMostrarSenha] = useState(false)
+    const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false)
 
-    
+    function handleSubmit(e) {
+        e.preventDefault();
+        setJaEnviou(true);
+
+        setConfirmarSenha('');
+        setEmail('')
+        setNome('')
+        setSenha('')
+
+        if (senhasIguais === "Tudo certo!") {
+            navigate('/login');
+        }
+    }
+
+    const handleChange = (setter, value) => {
+        setter(value);
+        if (jaEnviou) setJaEnviou(false);
+    };
+
+    const handleToggleMostrarSenha = () => {
+        setMostrarSenha((prev) => !prev);
+    };
+
+    const handleToggleMostrarConfirmarSenha = () => {
+        setMostrarConfirmarSenha((prev) => !prev);
+    };
 
     return (
         <div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className={styles.header}>
-                    <img src={imgLogoBat} alt="Logo" className = {styles.logo}/>
-                    <h1>
-                        BAT
-                    </h1>
-
-                    <h2>
-                        Sistema de Busca de Ativos Tijuca Alimentos
-                    </h2>
+                    <img src={imgLogoBat} alt="Logo" className={styles.logo} />
+                    <h1>BAT</h1>
+                    <h2>Sistema de Busca de Ativos Tijuca Alimentos</h2>
                 </div>
+
                 <Input
                     typeInput={"text"}
                     placeholder={"Digite seu nome..."}
                     required={false}
+                    value={nome}
+                    onChange={(e) => handleChange(setNome, e.target.value)}
                 />
 
                 <Input
                     typeInput={"email"}
                     placeholder={"Digite seu Email..."}
                     required={false}
+                    value={email}
+                    onChange={(e) => handleChange(setEmail, e.target.value)}
                 />
+
                 <Input
-                    typeInput={"password"}
+                    typeInput={mostrarSenha ? "text" : "password"}
                     placeholder={"Digite sua senha..."}
                     required={false}
+                    id={'senha'}
+                    value={senha}
+                    onChange={(e) => handleChange(setSenha, e.target.value)}
                 />
 
                 <div className={styles.showPasswordContainer}>
                     <p>Mostrar senha</p>
-                    <Checkbox />
+                    <Checkbox
+                        checked={mostrarSenha}
+                        action={handleToggleMostrarSenha}
+                    />
                 </div>
 
                 <Input
-                    typeInput={"password"}
+                    typeInput={mostrarConfirmarSenha ? "text" : "password"}
                     placeholder={"Confirme sua senha..."}
                     required={false}
+                    id={'csenha'}
+                    value={confirmarSenha}
+                    onChange={(e) => handleChange(setConfirmarSenha, e.target.value)}
                 />
 
                 <div className={styles.showPasswordContainer}>
                     <p>Mostrar Senha</p>
-                    <Checkbox />
+                    <Checkbox
+                        checked={mostrarConfirmarSenha}
+                        action={handleToggleMostrarConfirmarSenha}
+                    />
                 </div>
+
                 <Botao
                     text={"Criar Conta!"}
-                    action={() => navigate('/login')}
                 />
 
+                <div>
+                    {jaEnviou && senhasIguais}
+                </div>
                 <p>
-                    Já tenho conta, <Link to={'/login'} className={styles.LinkCadastro} >entrar!</Link>
+                    Já tenho conta, <Link to={'/login'} className={styles.LinkCadastro}>entrar!</Link>
                 </p>
             </form>
         </div>

@@ -1,8 +1,8 @@
-export default function Checkbox({action, texto}) {
+export default function Checkbox({action, checked}) {
     return (
         <input
             type="checkbox"
-            onClick={action}
-            placeholder={texto}
+            onChange={action}
+            checked={checked}
         />)
 }
