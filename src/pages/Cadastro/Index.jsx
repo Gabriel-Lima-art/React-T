@@ -7,6 +7,7 @@ import imgLogoBat from '../../assets/imgs/WhatsApp_Image_2026-09-04_at_09.51.37-
 import { Link } from 'react-router';
 import validarSenha from './helpers/validarSenha';
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function Cadastro() {
 
@@ -19,18 +20,30 @@ export default function Cadastro() {
     const senhasIguais = validarSenha(senha, confirmarSenha);
     const [mostrarSenha, setMostrarSenha] = useState(false)
     const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false)
+    const [erroApi, setErroApi] = useState('');
 
-    function handleSubmit(e) {
+
+    async function handleSubmit(e) {
         e.preventDefault();
         setJaEnviou(true);
 
-        setConfirmarSenha('');
-        setEmail('')
-        setNome('')
-        setSenha('')
 
-        if (senhasIguais === "Tudo certo!") {
+        if (senhasIguais !== "Tudo certo!") {
+            return;
+        }
+
+        try {
+            await axios.post('http://localhost:4000/usuarios', {
+                nome,
+                email,
+                senha
+            });
+
+            console.log('Usuário criado com sucesso:')
+
             navigate('/login');
+        } catch (error) {
+            setErroApi(error.response?.data?.mensagem || "Erro no servidor.");
         }
     }
 
@@ -106,13 +119,14 @@ export default function Cadastro() {
                     />
                 </div>
 
+                <div className={styles.Erro}>
+                    {jaEnviou && senhasIguais !== "Tudo certo!" && senhasIguais}
+                    {erroApi && <p>{erroApi}</p>}                </div>
+
                 <Botao
                     text={"Criar Conta!"}
                 />
 
-                <div>
-                    {jaEnviou && senhasIguais}
-                </div>
                 <p>
                     Já tenho conta, <Link to={'/login'} className={styles.LinkCadastro}>entrar!</Link>
                 </p>

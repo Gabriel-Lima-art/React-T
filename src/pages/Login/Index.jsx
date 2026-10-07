@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router';
 import Checkbox from '../../components/ui/Checkbox';
 import imgLogoBat from '../../assets/imgs/WhatsApp_Image_2026-09-04_at_09.51.37-removebg-preview (1).png';
 import { useState } from 'react';
+import axios from 'axios';
+
 export default function Login() {
     const navigate = useNavigate();
 
@@ -64,3 +66,5 @@ export default function Login() {
         </div>
     );
 }
+
+

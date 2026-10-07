@@ -3,7 +3,8 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: auto;
+    max-width: 300px;
+    width: 80%;
     height: auto;
     box-shadow: inset 0 2px 4px rgba(22, 21, 21, 0.951);
     background-color: rgb(255, 255, 255);
@@ -35,3 +36,17 @@ form {
     text-decoration: none;
     font-weight: bold;
 }
+
+.Erro {
+    color: red;
+}
+
+@media (max-width: 480px) {
+    form {
+        width: 75%;        /* Deixa ainda mais área azul visível nas laterais em celulares */
+        padding: 10px 12px;
+        margin: 10px auto;
+    }
+}
+
+
