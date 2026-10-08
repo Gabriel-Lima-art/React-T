@@ -1,11 +1,9 @@
-import './App.css'
-
-import { createBrowserRouter } from "react-router"; // ou "react-router-dom"
-
+import { createBrowserRouter } from "react-router"; 
 import Home from "./pages/Home/Home";
 import Cadastro from "./pages/Cadastro/Index";
 import Login from "./pages/Login/Index";
-import RotaPrivada from './components/ui/RotaPrivada';
+import RotaPrivada from './components/RotaPrivada/RotaPrivada';
+import Ativos from './pages/Ativos';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +22,10 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  {
+    path: "/teste",
+    element: <Ativos />
+  }
 ]);
 
 export default router;

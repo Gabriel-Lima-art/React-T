@@ -1,9 +1,9 @@
-button {
+ button {
     background-color: #F08010;
     width: 220px;
-    /* height: 40px; */
+    height: 40px; 
     color: white;
     font-size: 2em;
     padding: 12px;
     border-radius: 10px;
-}
+} 

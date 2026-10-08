@@ -33,7 +33,7 @@ export default function Cadastro() {
         }
 
         try {
-            await api.post('/usuarios', {
+            await api.post('/auth/cadastro', {
                 nome,
                 email,
                 senha
