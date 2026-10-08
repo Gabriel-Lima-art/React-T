@@ -5,13 +5,28 @@ import { Link, useNavigate } from 'react-router';
 import Checkbox from '../../components/ui/Checkbox';
 import imgLogoBat from '../../assets/imgs/WhatsApp_Image_2026-09-04_at_09.51.37-removebg-preview (1).png';
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../../lib/axios';
 
 export default function Login() {
     const navigate = useNavigate();
 
+    const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [mostrarSenha, setMostrarSenha] = useState(false);
+    const [erro, setErro] = useState('');
+
+    const handleLogin = async () => {
+        try {
+            setErro('');
+
+            const { data } = await api.post('/usuarios/login', { email, senha });
+
+            localStorage.setItem('token', data.token);
+            navigate('/');
+        } catch (error) {
+            setErro(error.response?.data?.erro || 'Erro ao fazer login');
+        }
+    };
 
     const handleToggleMostrarSenha = () => {
         setMostrarSenha((prev) => !prev);
@@ -23,7 +38,6 @@ export default function Login() {
 
     return (
         <div>
-
             <form onSubmit={(e) => e.preventDefault()}>
                 <div className={styles.header}>
                     <img src={imgLogoBat} alt="Logo" className={styles.logo} />
@@ -35,6 +49,8 @@ export default function Login() {
                     typeInput={"email"}
                     placeholder={"Digite seu Email..."}
                     required={false}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
 
                 <Input
@@ -54,9 +70,11 @@ export default function Login() {
                     />
                 </div>
 
+                {erro && <p className={styles.erro}>{erro}</p>}
+
                 <Botao
                     text={"Confirmar!"}
-                    action={() => navigate('/')}
+                    action={handleLogin}
                 />
 
                 <p>
@@ -66,5 +84,3 @@ export default function Login() {
         </div>
     );
 }
-
-

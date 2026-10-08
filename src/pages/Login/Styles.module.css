@@ -39,3 +39,7 @@ form {
 p {
     text-align: center;
 }
+
+.erro {
+    color: red
+}

@@ -7,7 +7,7 @@ import imgLogoBat from '../../assets/imgs/WhatsApp_Image_2026-09-04_at_09.51.37-
 import { Link } from 'react-router';
 import validarSenha from './helpers/validarSenha';
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../../lib/axios';
 
 export default function Cadastro() {
 
@@ -33,7 +33,7 @@ export default function Cadastro() {
         }
 
         try {
-            await axios.post('http://localhost:4000/usuarios', {
+            await api.post('/usuarios', {
                 nome,
                 email,
                 senha
