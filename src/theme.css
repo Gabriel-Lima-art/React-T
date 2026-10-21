@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* dark: passa a responder ao atributo data-theme="dark" no <html> */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Modo claro (padrão) */
+:root {
+  --bat-fundo: #EEF2F7;
+  --bat-menu: #FFFFFF;
+  --bat-card: #FFFFFF;
+  --bat-campo: #F4F7FB;
+  --bat-texto: #14283D;
+  --bat-titulo: #0D2A47;
+  --bat-suave: #5A6E85;
+  --bat-borda: #D9DFE7;
+  --bat-laranja: #E0700A;
+  --bat-azul: #0070B0;
+  --bat-ok: #00808F;
+  --bat-alerta: #D64545;
+}
+
+/* Modo escuro */
+[data-theme="dark"] {
+  --bat-fundo: #0D2A47;
+  --bat-menu: #081A2E;
+  --bat-card: #13335A;
+  --bat-campo: #0F2C4D;
+  --bat-texto: #EAF1F8;
+  --bat-titulo: #FFFFFF;
+  --bat-suave: #8FA3BC;
+  --bat-borda: #2B476A;
+  --bat-laranja: #F08010;
+  --bat-azul: #2B9FE8;
+  --bat-ok: #2BC4D6;
+  --bat-alerta: #FF7A7A;
+}
+
+/* Vira classes: bg-fundo, bg-card, text-texto, text-suave, border-borda, text-ok... */
+@theme inline {
+  --color-fundo: var(--bat-fundo);
+  --color-menu: var(--bat-menu);
+  --color-card: var(--bat-card);
+  --color-campo: var(--bat-campo);
+  --color-texto: var(--bat-texto);
+  --color-titulo: var(--bat-titulo);
+  --color-suave: var(--bat-suave);
+  --color-borda: var(--bat-borda);
+  --color-laranja: var(--bat-laranja);
+  --color-azul: var(--bat-azul);
+  --color-ok: var(--bat-ok);
+  --color-alerta: var(--bat-alerta);
+}
+
+/* Botão principal e item de menu atual: #F08010 nos dois modos */
+@theme {
+  --color-acao: #F08010;
+}

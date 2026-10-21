@@ -1,12 +1,11 @@
-import Input from '../../components/ui/Input/Index';
-import Botao from '../../components/ui/Botao/Index';
-import styles from './Styles.module.css';
-import { useNavigate } from 'react-router';
-import Checkbox from '../../components/ui/Checkbox';
-import imgLogoBat from '../../assets/imgs/WhatsApp_Image_2026-09-04_at_09.51.37-removebg-preview (1).png';
-import { Link } from 'react-router';
-import validarSenha from './helpers/validarSenha';
+import { Link, useNavigate } from 'react-router';
 import { useState } from 'react';
+import Input from '../../components/ui/Input/Input.jsx';
+import CampoSenha from '../../components/ui/CampoSenha.jsx';
+import Botao from '../../components/ui/Botao/Botao.jsx';
+import AuthLayout from '../../layout/AuthLayout.jsx';
+import imgLogoBat from '../../assets/imgs/WhatsApp_Image_2026-09-04_at_09.51.37-removebg-preview (1).png';
+import validarSenha from './helpers/validarSenha';
 import api from '../../lib/axios';
 
 export default function Cadastro() {
@@ -61,76 +60,62 @@ export default function Cadastro() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div className={styles.header}>
-                    <img src={imgLogoBat} alt="Logo" className={styles.logo} />
-                    <h1>BAT</h1>
-                    <h2>Sistema de Busca de Ativos Tijuca Alimentos</h2>
-                </div>
-
-                <Input
-                    typeInput={"text"}
-                    placeholder={"Digite seu nome..."}
-                    required={false}
-                    value={nome}
-                    onChange={(e) => handleChange(setNome, e.target.value)}
-                />
-
-                <Input
-                    typeInput={"email"}
-                    placeholder={"Digite seu Email..."}
-                    required={false}
-                    value={email}
-                    onChange={(e) => handleChange(setEmail, e.target.value)}
-                />
-
-                <Input
-                    typeInput={mostrarSenha ? "text" : "password"}
-                    placeholder={"Digite sua senha..."}
-                    required={false}
-                    id={'senha'}
-                    value={senha}
-                    onChange={(e) => handleChange(setSenha, e.target.value)}
-                />
-
-                <div className={styles.showPasswordContainer}>
-                    <p>Mostrar senha</p>
-                    <Checkbox
-                        checked={mostrarSenha}
-                        action={handleToggleMostrarSenha}
+        
+            <AuthLayout
+                logo={imgLogoBat}
+                titulo="Crie sua conta e comece a acompanhar os ativos."
+                texto="O que você vê dentro do BAT depende do seu setor, então cada pessoa encontra só o que precisa."
+                itens={['Cadastro leva menos de 1 minuto', 'Sua senha é guardada com criptografia', 'Você pode alterar seus dados depois']}
+            >
+                <h1 className="text-xl font-bold text-titulo">Criar conta</h1>
+                <p className="mt-1 text-sm text-suave">Preencha os dados abaixo para ter acesso.</p>
+                <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+                    <Input
+                        label="Nome completo"
+                        type="text"
+                        placeholder="Como aparece no seu crachá"
+                        required={false}
+                        value={nome}
+                        onChange={(e) => handleChange(setNome, e.target.value)}
                     />
-                </div>
-
-                <Input
-                    typeInput={mostrarConfirmarSenha ? "text" : "password"}
-                    placeholder={"Confirme sua senha..."}
-                    required={false}
-                    id={'csenha'}
-                    value={confirmarSenha}
-                    onChange={(e) => handleChange(setConfirmarSenha, e.target.value)}
-                />
-
-                <div className={styles.showPasswordContainer}>
-                    <p>Mostrar Senha</p>
-                    <Checkbox
-                        checked={mostrarConfirmarSenha}
-                        action={handleToggleMostrarConfirmarSenha}
+                    <Input
+                        label="E-mail"
+                        type="email"
+                        placeholder="seu@email.com.br"
+                        required={false}
+                        value={email}
+                        onChange={(e) => handleChange(setEmail, e.target.value)}
                     />
-                </div>
-
-                <div className={styles.Erro}>
-                    {jaEnviou && senhasIguais !== "Tudo certo!" && senhasIguais}
-                    {erroApi && <p>{erroApi}</p>}                </div>
-
-                <Botao
-                    text={"Criar Conta!"}
-                />
-
-                <p>
-                    Já tenho conta, <Link to={'/login'} className={styles.LinkCadastro}>entrar!</Link>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                        <CampoSenha
+                            label="Senha"
+                            placeholder="Crie uma senha"
+                            required={false}
+                            value={senha}
+                            onChange={(e) => handleChange(setSenha, e.target.value)}
+                            visivel={mostrarSenha}
+                            onAlternar={handleToggleMostrarSenha}
+                        />
+                        <CampoSenha
+                            label="Confirmar senha"
+                            placeholder="Repita a senha"
+                            required={false}
+                            value={confirmarSenha}
+                            onChange={(e) => handleChange(setConfirmarSenha, e.target.value)}
+                            visivel={mostrarConfirmarSenha}
+                            onAlternar={handleToggleMostrarConfirmarSenha}
+                        />
+                    </div>
+                    <div role="alert" className="text-sm text-alerta">
+                        {jaEnviou && senhasIguais !== "Tudo certo!" && <p>{senhasIguais}</p>}
+                        {erroApi && <p>{erroApi}</p>}
+                    </div>
+                    <Botao type="submit" className="w-full" text="Criar conta" />
+                </form>
+                <p className="mt-5 text-center text-sm text-suave">
+                    Já tem conta? <Link to="/login" className="font-bold text-ok hover:underline">Entrar</Link>
                 </p>
-            </form>
-        </div>
+            </AuthLayout>
+        
     );
 }
